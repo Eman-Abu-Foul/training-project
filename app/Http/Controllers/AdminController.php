@@ -16,7 +16,9 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        //  $this->authorizeResource(Admin::class, 'admin');
+        //      $this->authorizeResource(Admin::class, 'admin');
+
+
     }
 
     /**
