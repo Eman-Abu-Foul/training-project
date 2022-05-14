@@ -19,10 +19,11 @@ class DatabaseSeeder extends Seeder
         // \App\Models\Student::factory(5)->create();
         // \App\Models\Admin::factory(5)->create();
 
-//         StudentSupervisor::create(['student_no' => '2301172113',
-//             'department_no' => '101','supervisor_no' => '123987']);
-//        StudentSupervisor::create(['student_no' => '2301172114',
-//            'department_no' => '101','supervisor_no' => '123987']);
+        //         StudentSupervisor::create(['student_no' => '2301172113',
+        //             'department_no' => '101','supervisor_no' => '123987']);
+        //        StudentSupervisor::create(['student_no' => '2301172114',
+        //            'department_no' => '101','supervisor_no' => '123987']);
+        
 
     }
 }
