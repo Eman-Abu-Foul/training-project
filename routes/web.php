@@ -80,6 +80,10 @@ Route::prefix('cms/student')->middleware('auth:student,supervisor')->group(funct
 });
 
 
+
+
+
+
 Route::prefix('cms/trainer')->middleware('auth:trainer')->group(function () {
     Route::resource('trainers', TrainerController::class);
 
