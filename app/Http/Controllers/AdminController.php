@@ -28,13 +28,15 @@ class AdminController extends Controller
      */
     public function index()
     {
+
+
         $admins = Admin::all();
         return response()->view('cms.admins.index', ['admins' => $admins]);
     }
 
     public function index_dashboard()
     {
-        //        $admins = Admin::all();
+
         $count_companies = DB::table('companies')->count();
         $count_trainers = DB::table('trainers')->count();
         $count_students = DB::table('students')->count();
