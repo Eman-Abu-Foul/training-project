@@ -24,13 +24,26 @@
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
+                                    {{--                                    {{$studentCompanyField->companyField->company->id}}--}}
                                     <label for="company_id">{{__('cms.company')}}</label>
                                     <select class="custom-select form-control-border" id="company_id"
-                                            onchange="showFields()">
-
+                                            onchange="showFields('{{$studentCompanyField->id}}')">
                                         @foreach ($companies as $company)
                                             <option
+
                                                 value="{{$company->id}}" {{ $company_id == $company->id ? 'selected' : '' }}>{{$company->name}}</option>
+                                            </option>
+{{--                                                @if($state == true)--}}
+{{--                                                value="{{$company->id}}"--}}
+{{--                                                {{$company_id == $company->id ? 'selected' : ''}}--}}
+
+{{--                                                @else--}}
+{{--                                                value="{{$studentCompanyField->companyField->company->id}}"--}}
+{{--                                                {{$company->id == $studentCompanyField->companyField->company->id ? 'selected' : ''}}--}}
+{{--                                                @endif >--}}
+
+{{--                                                {{$company->name}}--}}
+
                                         @endforeach
                                     </select>
                                 </div>
@@ -52,12 +65,13 @@
                                 <div class="form-group">
                                     <label for="notes">Notes</label>
                                     <textarea id="notes" name="notes"
-                                              class="form-control"></textarea>
+                                              class="form-control">{{$studentCompanyField->notes}}</textarea>
                                 </div>
                             </div>
                             <!-- /.card-body -->
+
                             <div class="card-footer">
-                                <button type="button" onclick="performStore()"
+                                <button type="button" onclick="performUpdate('{{$studentCompanyField->id}}')"
                                         class="btn btn-primary">{{__('cms.save')}}</button>
                             </div>
                         </form>
@@ -74,37 +88,29 @@
 
 @section('scripts')
     <script>
-        function showFields() {
+        function showFields($id) {
+            $state = true;
             $company_id = document.getElementById('company_id').value;
             // window.location.href = '/cms/student/registerCompany/' + $company_id;
-
-            window.location.replace('/cms/student/registerCompany/{{$student_no}}/?company_id=' + $company_id);
-
+            window.location.href = '/cms/student/registerCompany/' + $id + '/edit/' + $company_id ;
 
         }
 
-        function performStore() {
-
-            // console.log(document.getElementById('student_no').value);
+        function performUpdate($id) {
+            // console.log(document.getElementById('field_id').value);
             var radio1 = $('input[type="radio"]:checked').val();
-            axios.post('/cms/student/registerStudentCompany', {
+            axios.put('/cms/student/registerStudentCompany/{{$studentCompanyField->id}}', {
                 company_id: document.getElementById('company_id').value,
                 field_id: radio1,
                 notes: document.getElementById('notes').value,
-                student_no: {{$student_no}},
+
             })
                 .then(function (response) {
                     //2xx
                     console.log(response);
                     toastr.success(response.data.message);
                     // document.getElementById('create-form').reset();
-                    @auth('student')
-                        window.location.href = '/cms/student/registerStudentCompany';
-                    @endauth
-
-                    @auth('supervisor')
-                        window.location.href = '/cms/supervisor/show/Students';
-                    @endauth
+                    window.location.href = '/cms/student/registerStudentCompany';
 
                 })
                 .catch(function (error) {

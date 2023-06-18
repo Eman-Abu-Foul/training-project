@@ -17,17 +17,18 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('student_no');
-            $table->foreign('student_no')->references('student_no')->on('register_students_course');
+            $table->foreign('student_no')->references('student_no')->on('register_students_course')->onDelete('cascade');
 
-            $table->foreignId('field_id');
-            $table->foreign('field_id')->references('id')->on('fields');
+            $table->foreignId('company_field_id');
+            $table->foreign('company_field_id')->references('id')->on('companies_fields')->onDelete('cascade');
 
-            $table->foreignId('company_id');
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreignId('trainer_id');
+            $table->foreign('trainer_id')->references('id')->on('trainers')->onDelete('cascade');
 
+            $table->boolean('status_company')->default(false);
+            $table->boolean('status_supervisor')->default(false);
 
-            $table->boolean('status')->default(false);
-
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

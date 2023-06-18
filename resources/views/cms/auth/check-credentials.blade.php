@@ -24,42 +24,31 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
         <div class="card-header text-center">
-{{--            {{$guard}}--}}
+            {{--            {{$guard}}--}}
             @if($guard == 'student')
-                <a href="" class="h1"><b>Student Login</b></a>
+                <a href="" class="h1"><b>Student </b></a>
             @elseif($guard == 'admin')
-                <a href="" class="h1"><b>Admin Login</b></a>
+                <a href="" class="h1"><b>Admin </b></a>
             @elseif($guard == 'supervisor')
-                <a href="" class="h1"><b>Supervisor Login</b></a>
+                <a href="" class="h1"><b>Supervisor </b></a>
             @elseif($guard == 'trainer')
-                <a href="" class="h1"><b>Trainer Login</b></a>
+                <a href="" class="h1"><b>Trainer </b></a>
             @endif
         </div>
         <div class="card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-
+            <p class="login-box-msg">Check Your Credentials</p>
             <form>
-                @if($guard == 'trainer')
                 <div class="input-group mb-3">
-                    <input type="email" class="form-control" placeholder="Email" id="number">
+                    <input type="text" class="form-control" placeholder="Academic Number" id="number">
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+                            <span class="fas fa-user"></span>
                         </div>
                     </div>
                 </div>
-                @else
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Number" id="number">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password" id="password">
+                    <input type="text" class="form-control" placeholder="ID Number" id="id_number">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -67,24 +56,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">
-                                Remember Me
-                            </label>
-                        </div>
-                    </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="button" onclick="login()" class="btn btn-primary btn-block">Sign In</button>
+                        <button type="button" onclick="checkCredentials()" class="btn btn-primary btn-block">Sign In</button>
                     </div>
                     <!-- /.col -->
                 </div>
             </form>
-            <p class="mb-0">
-                <a href="{{route('cms.check.credentials',$guard)}}" class="text-center">Register a new membership</a>
-            </p>
+
         </div>
         <!-- /.card-body -->
     </div>
@@ -103,19 +82,18 @@
 <script src="{{asset('cms/plugins/toastr/toastr.min.js')}}"></script>
 
 <script>
-    function login() {
-
-        axios.post('/cms/login', {
-            number: document.getElementById('number').value,
-            password: document.getElementById('password').value,
-            remember: document.getElementById('remember').checked,
-            // email: document.getElementById('email').checked,
+    function checkCredentials() {
+        var academic_number = document.getElementById('number').value;
+        var id_number =  document.getElementById('id_number').value;
+        axios.post('/cms/check', {
+            number: academic_number,
+            id_number: id_number,
             guard: '{{$guard}}',
         })
             .then(function (response) {
                 toastr.success(response.data.message);
                 console.log(response);
-                window.location.href = '/cms/admin';
+                window.location.href = '/cms/{{$guard}}/register?academic_number='+academic_number+'&id_number='+id_number;
             })
             .catch(function (error) {
 
